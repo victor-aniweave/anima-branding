@@ -68,6 +68,7 @@
   --border: var(--mist-200);
   --text-primary: var(--depth-700);
   --text-secondary: var(--mist-600);
+  --text-tertiary: var(--mist-500); /* 3.36:1，僅大字級（≥18px 或 ≥14px 粗體）合格；一般內文不合格，僅限真正不重要或裝飾性的第三層級資訊 */
   --text-accent: var(--sky-700);
   --brand: var(--sky-500);
   --interactive: var(--current-500);
@@ -84,6 +85,7 @@
     --border: var(--mist-700);
     --text-primary: #FFFFFF;
     --text-secondary: var(--mist-300); /* Mist 600 在深底僅 2.35:1，不合格，故調淺一階 */
+    --text-tertiary: var(--mist-400); /* 8.95:1，深底第三層級文字仍需清楚可讀 */
     --text-accent: var(--sky-300);
     --brand: var(--sky-500); /* 兩種模式對比皆足夠，不需換階 */
     --interactive: var(--current-400); /* Current 500 在深底僅 2.80:1，不合格 */
@@ -102,5 +104,12 @@
   - Current 400 底＋白字：4.01:1，大字合格；深色模式實心按鈕文字須維持字重 ≥ 600、字級 ≥ 14px
   - Mist 900 深底＋白字：16.48:1，深底主標題／標誌
   - Mist 900 深底＋ Sky 200：11.76:1，深底次要文字、說明、標籤
+  - 白 #FFFFFF 配 Mist 500：3.36:1，僅大字級合格，一般內文不合格
+  - Mist 900 深底＋ Mist 400：8.95:1，深底第三層級文字
+
+  text-tertiary 使用限制：僅用於真正不重要、或屬於第三層級的輔助資訊（例如版權小字、次要標籤），
+  不可用於任何需要被閱讀的內文——淺色模式的 Mist 500 未達一般內文 4.5:1 門檻，只在大字級
+  （≥18px 或 ≥14px 粗體）或純裝飾用途下可接受。
+
   完整對照與各版位重量分配比例建議，請見主文件《ANIMA_品牌規範_v1.1.html》02 色彩系統章節。
 */
