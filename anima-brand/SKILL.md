@@ -93,13 +93,13 @@ v1.1。本檔為 AI 工具載入用的精簡版，圖片一律以 GitHub 路徑�
 ### 定案 Slogan
 獨立出現時逐字含標點一致；文中引用可順句，不改語意。
 
-| # | 中文（定案） | 英文 | 英文狀態 | 使用場合 |
-|---|---|---|---|---|
-| 1 | AI 什麼都懂，就是不懂你的公司。 | AI knows everything. Except your company. | 草案 | 開場字卡、主推標題 |
-| 2 | 一個 ANIMA，就是整間公司。 | One ANIMA. Your whole company. | 定案 | 片尾字卡、說明文靈魂句 |
-| 3 | 呼叫 ANIMA，整間公司都來了。 | Call ANIMA — the whole company shows up. | 草案 | 投放 caption、社群貼文 |
-| 4 | 公司怎麼做，ANIMA 都記得。 | How your company works — ANIMA remembers. | 草案 | 字卡 |
-| 5 | 你按確認，ANIMA 送出。 | （無英文版） | — | 字卡；文中敘述可用「才送出」 |
+| # | 中文（定案） | 英文 | 使用場合 |
+|---|---|---|---|
+| 1 | AI 什麼都懂，就是不懂你的公司。 | AI knows everything. Except your company. | 開場字卡、主推標題 |
+| 2 | 一個 ANIMA，就是整間公司。 | One ANIMA. Your whole company. | 片尾字卡、說明文靈魂句 |
+| 3 | 呼叫 ANIMA，整間公司都來了。 | Call ANIMA — the whole company shows up. | 投放 caption、社群貼文 |
+| 4 | 公司怎麼做，ANIMA 都記得。 | How your company works — ANIMA remembers. | 字卡 |
+| 5 | 你按確認，ANIMA 送出。 | （無英文版） | 字卡；文中敘述可用「才送出」 |
 
 ### Tagline（定案）
 
