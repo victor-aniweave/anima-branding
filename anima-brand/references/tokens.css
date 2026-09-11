@@ -1,0 +1,106 @@
+/* ANIMA Design Tokens — v1.1
+   五組色階（50–900）與語意色。不新增色階；深色模式只換用同一組色階裡不同的階數。 */
+
+:root {
+  /* Primary — 天空藍 Anima Sky（標誌主色） */
+  --sky-50:  #ECF9FF;
+  --sky-100: #C4EBFF;
+  --sky-200: #A8E2FF;
+  --sky-300: #80D4FF;
+  --sky-400: #68CCFF;
+  --sky-500: #42BFFF; /* anchor：標誌主色 */
+  --sky-600: #3CAEE8;
+  --sky-700: #2F88B5;
+  --sky-800: #24698C;
+  --sky-900: #1C506B;
+
+  /* Secondary — 深海藍 Current（互動元件、連結、強調狀態） */
+  --current-50:  #E9EEFC;
+  --current-100: #BACCF5;
+  --current-200: #98B3F1;
+  --current-300: #6990EA;
+  --current-400: #4C7AE6;
+  --current-500: #1F59E0; /* anchor */
+  --current-600: #1C51CC;
+  --current-700: #163F9F;
+  --current-800: #11317B;
+  --current-900: #0D255E;
+
+  /* Accent — 青綠 Ripple（輕量點綴，份量固定收斂） */
+  --ripple-50:  #EEFCFD;
+  --ripple-100: #CCF6F7;
+  --ripple-200: #B3F2F4;
+  --ripple-300: #90ECEE;
+  --ripple-400: #7AE9EB;
+  --ripple-500: #59E3E6; /* anchor */
+  --ripple-600: #51CFD1;
+  --ripple-700: #3FA1A3;
+  --ripple-800: #317D7F;
+  --ripple-900: #255F61;
+
+  /* Tertiary — 墨色 Depth（標準字、內文、圖示線條） */
+  --depth-50:  #F6F8F9;
+  --depth-100: #E3EAED;
+  --depth-200: #CDD8DE;
+  --depth-300: #ABBDC5;
+  --depth-400: #8BA4B0;
+  --depth-500: #5C7E8E;
+  --depth-600: #4B6672;
+  --depth-700: #33454E; /* anchor：標準字、內文預設色 */
+  --depth-800: #222D33;
+  --depth-900: #151D20;
+
+  /* Grey — 中性灰 Mist（900 固定作為深色背景底色） */
+  --mist-50:  #FCFCFC;
+  --mist-100: #F5F5F5;
+  --mist-200: #F0F0F0;
+  --mist-300: #D9D9D9;
+  --mist-400: #BFBFBF;
+  --mist-500: #8C8C8C;
+  --mist-600: #595959;
+  --mist-700: #454545;
+  --mist-800: #262626;
+  --mist-900: #1F1F1F; /* anchor：深色背景底色 */
+
+  /* 語意 token — 淺色模式（預設） */
+  --bg-page: #FFFFFF;
+  --bg-card: var(--mist-50);
+  --border: var(--mist-200);
+  --text-primary: var(--depth-700);
+  --text-secondary: var(--mist-600);
+  --text-accent: var(--sky-700);
+  --brand: var(--sky-500);
+  --interactive: var(--current-500);
+  --accent-decorative: var(--ripple-500);
+  --button-solid-bg: var(--current-500);
+  --button-solid-text: #FFFFFF;
+}
+
+/* 深色模式：只換用同一組色階裡不同的階數，不引入新色 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-page: var(--mist-900);
+    --bg-card: var(--mist-800);
+    --border: var(--mist-700);
+    --text-primary: #FFFFFF;
+    --text-secondary: var(--mist-300); /* Mist 600 在深底僅 2.35:1，不合格，故調淺一階 */
+    --text-accent: var(--sky-300);
+    --brand: var(--sky-500); /* 兩種模式對比皆足夠，不需換階 */
+    --interactive: var(--current-400); /* Current 500 在深底僅 2.80:1，不合格 */
+    --accent-decorative: var(--ripple-500); /* 不需換階 */
+    --button-solid-bg: var(--current-400);
+    --button-solid-text: #FFFFFF; /* 對比 4.01:1，大字合格；按鈕文字須維持字重 ≥ 600、字級 ≥ 14px */
+  }
+}
+
+/*
+  對比配對表（WCAG）— 關鍵規則：
+  - 白 #FFFFFF 配 Depth 700：9.99:1，一般內文
+  - 白 #FFFFFF 配 Current 500：5.89:1，連結文字
+  - Sky 500 底：唯一合格字色是 Depth 700（4.82:1）。Sky 500 底不可配白字（2.07:1，不合格）
+  - Current 500 底＋白字：5.89:1，淺色模式實心按鈕
+  - Current 400 底＋白字：4.01:1，大字合格；深色模式實心按鈕文字須維持字重 ≥ 600、字級 ≥ 14px
+  - Mist 900 深底＋白字：16.48:1，深底主標題／標誌
+  - Mist 900 深底＋ Sky 200：11.76:1，深底次要文字、說明、標籤
+  完整對照與各版位重量分配比例建議，請見主文件《ANIMA_品牌規範_v1.1.html》02 色彩系統章節。
+*/
