@@ -44,10 +44,12 @@ description: ANIMA 交付前自檢。在把 ANIMA 相關網頁、文件、簡報
 
 ### 3.1 資產逐字
 
-資產位：字卡、H1、H2、tagline、CTA 主標、頁尾標語、meta title 與 description。資產位的句子必須逐字（含標點）來自 `anima-brand` skill 的資產表（定案 slogan、Tagline、Lockup 規則、影片字卡、可用文案、退役句，見該 skill §4 與 `references/examples.md`），用搜尋字串比對，不用目測。
+資產位：字卡、tagline、頁尾標語。這些位置的句子必須逐字（含標點）來自 `anima-brand` skill 的資產表（定案 slogan、Tagline、Lockup 規則、影片字卡、可用文案、退役句，見該 skill §4 與 `references/examples.md`），用搜尋字串比對，不用目測。
 
-- [ ] 每個資產位的句子在 `anima-brand` 資產表逐字命中
-- [ ] 資產位出現不在表上的句子 → 標「草案」，列入報告，不自行定案
+頁面標題（H1、H2）與 CTA 主標若非資產表句子、屬新造，不強制逐字比對，但要標「草案」並過 3.2 詞彙與語感；meta title 與 description 同此規則。
+
+- [ ] 字卡、tagline、頁尾標語的句子在 `anima-brand` 資產表逐字命中
+- [ ] 新造的標題／CTA／meta 句子 → 標「草案」，列入報告，不自行定案為資產
 - [ ] 退役句（`anima-brand` references/examples.md）0 命中
 - [ ] Lockup 位有省略主詞；純文字位有帶主詞
 
