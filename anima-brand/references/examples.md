@@ -15,6 +15,7 @@
 | 英文大小寫 | THE AGENT THAT KNOWS YOUR COMPANY. | ANIMA, the agent that knows your company. |
 | 自稱 | ANIMA 是最聰明的企業 AI。 | AI 什麼都懂，就是不懂你的公司。 |
 | 兩層 | 員工層與公司層混用同一句 | 員工層：會用 LINE，就會用 ANIMA。公司層：為你的公司，建一顆專屬的 AI 大腦。 |
+| 署名 | LINE／Mail：anima@aniweave.ai（把兩個聯絡值合併、遺漏 LINE 帳號） | LINE：@aniweave.ai／Mail：anima@aniweave.ai（兩行分開，不可合併） |
 
 ## 各版位範本
 
@@ -29,7 +30,7 @@
 ### YT 說明文
 結構：靈魂句 → 一句定位 → 三行它做什麼 → CTA → 署名 ANIMA by ANIWEAVE → #企業AI #AIAgent #LINE
 規則：CTA 用「為你的公司，建一顆專屬的 AI 大腦」
-署名：對外聯絡列 LINE：@aniweave.ai／Mail：anima@aniweave.ai；所有素材聯絡信箱一律 anima@aniweave.ai
+署名：對外聯絡分兩行列出，LINE：@aniweave.ai／Mail：anima@aniweave.ai——這是兩個不同的值，不可合併成一行、也不可只留其中一個；所有素材裡的聯絡信箱一律用 anima@aniweave.ai
 
 ### BD 材料（deck、one-pager）
 結構：公司層定位 → 它做什麼 → 導入方式
