@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aniweave 員工 Gmail 簽名檔設定教學</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Nunito Sans", "Noto Sans TC", Arial, sans-serif;
+            max-width: 640px;
+            margin: 40px auto;
+            padding: 0 24px;
+            color: #33454E;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-size: 14px;
+            font-weight: 700;
+            margin: 24px 0 8px;
+        }
+
+        p,
+        li {
+            font-size: 13px;
+            line-height: 1.7;
+            margin: 0 0 4px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #D9D9D9;
+            margin: 40px 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 96px 1fr;
+            gap: 10px 12px;
+            align-items: center;
+            max-width: 420px;
+            margin: 12px 0 20px;
+        }
+
+        .form-grid label {
+            font-size: 13px;
+            color: #33454E;
+        }
+
+        .form-grid input {
+            font-family: inherit;
+            font-size: 13px;
+            padding: 6px 8px;
+            border: 1px solid #D9D9D9;
+            border-radius: 4px;
+            color: #33454E;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-grid input:focus {
+            outline: none;
+            border-color: #80D4FF;
+        }
+
+        .preview-wrapper {
+            border: 1px dashed #D9D9D9;
+            border-radius: 4px;
+            padding: 16px;
+            margin: 12px 0 16px;
+            overflow-x: auto;
+        }
+
+        #copyBtn {
+            background: #1F59E0;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 9px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        #copyBtn:hover {
+            background: #1C51CC;
+        }
+
+        #copyStatus {
+            display: inline-block;
+            margin: 0 0 0 12px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>aniweave 員工 Gmail 簽名檔設定教學</h1>
+
+    <h2>Step 1 — 用瀏覽器開啟</h2>
+    <p><strong>用瀏覽器開啟這份 HTML 檔案</strong>（Chrome 或 Safari 皆可）。</p>
+
+    <h2>Step 2 — 填入你的資料</h2>
+    <p>下面欄位會即時更新下方的簽名預覽，填完確認沒問題後直接複製即可，不需要再手動修改文字。</p>
+    <div class="form-grid">
+        <label for="nameEn">英文名</label>
+        <input id="nameEn" type="text" value="Ada Lin">
+
+        <label for="nameZh">中文名</label>
+        <input id="nameZh" type="text" value="林雅媗">
+
+        <label for="title">職稱</label>
+        <input id="title" type="text" value="職稱">
+
+        <label for="mobile">手機</label>
+        <input id="mobile" type="text" value="+886 9XX XXX XXX">
+
+        <label for="tel">公司電話</label>
+        <input id="tel" type="text" value="+886 2 2755 2099">
+
+        <label for="email">Email</label>
+        <input id="email" type="text" value="yourname@aniweave.ai">
+    </div>
+
+    <h2>Step 3 — 複製簽名</h2>
+    <p>確認下方預覽正確後，點「複製簽名」按鈕即可整組複製（含格式、圖片）。</p>
+
+    <div class="preview-wrapper">
+        <div id="signatureBlock">
+            <table cellpadding="0" cellspacing="0" border="0"
+                style="border-collapse:collapse;width:100%;max-width:500px;font-family:&quot;Nunito Sans&quot;,&quot;Noto Sans TC&quot;,sans-serif">
+                <tbody>
+                    <tr>
+                        <td style="display: flex; padding: 12px 12px 12px 12px">
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <table cellpadding="0" cellspacing="0" border="0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="margin:8px 0px 0px 0px;display: flex;">
+                                                            <p id="sigNameEn"
+                                                                style="margin:0px 12px 0px 0px;color:#33454E;font-size:16px;line-height:110%;font-weight:700;font-family:&quot;Nunito Sans&quot;,&quot;Noto Sans TC&quot;,sans-serif;">
+                                                                Ada Lin</p>
+                                                            <p id="sigNameZh"
+                                                                style="margin:0px 20px 0px 0px;color:#33454E;font-size:16px;line-height:110%;font-weight:700;letter-spacing: 2px;font-family:&quot;Nunito Sans&quot;,&quot;Noto Sans TC&quot;,sans-serif;">
+                                                                林雅媗</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr></tr>
+                                                </tbody>
+                                            </table>
+                                            <p id="sigTitle"
+                                                style="margin:0px;color:#595959;font-size:13px;line-height:170%;font-weight:400;font-family:&quot;Nunito Sans&quot;,&quot;Noto Sans TC&quot;,sans-serif;">
+                                                職稱</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table cellpadding="0" cellspacing="0" border="0" style="border-left: 2px solid #80D4FF;">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p
+                                                style="margin:0px 0px 0px 24px;color:#33454E;font-size:10px;line-height: 150%;font-weight:400;font-family:&quot;Nunito Sans&quot;,&quot;Noto Sans TC&quot;,sans-serif;">
+                                                <span style="font-weight:700">M:</span> <span id="sigMobile">+886 9XX XXX XXX</span>
+                                            </p>
+                                            <p
+                                                style="margin:0px 0px 0px 24px;color:#33454E;font-size:10px;line-height: 150%;font-weight:400;font-family:&quot;Nunito Sans&quot;,&quot;Noto Sans TC&quot;,sans-serif;">
+                                                <span style="font-weight:700">T:</span> <span id="sigTel">+886 2 2755 2099</span>
+                                            </p>
+                                            <p
+                                                style="margin:0px 0px 0px 24px;color:#33454E;font-size:10px;line-height: 150%;font-weight:400;font-family:&quot;Nunito Sans&quot;,&quot;Noto Sans TC&quot;,sans-serif;">
+                                                <span style="font-weight:700">E:</span> <span id="sigEmail">yourname@aniweave.ai</span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;width:100%;max-width:500px;">
+                <tbody>
+                    <tr>
+                        <td style="width: 50%;padding-bottom:2%"></td>
+                        <td style="width: 50%;padding-bottom:2%"></td>
+                    </tr>
+                    <tr
+                        style="border-collapse:collapse;background:url(&quot;https://cdn.prod.website-files.com/6981d8e9960b31c1ce5dbbff/6a323e99ce8b7f1834c653e8_916e049444f892f2f5fcd00a5a27c26e_gmail_signature_bg.png&quot;) center center/cover no-repeat;width:100%;max-width:600px;font-family:&quot;Nunito Sans&quot;,&quot;Noto Sans TC&quot;,sans-serif">
+                        <td style="padding: 8px 0px 8px 12px;">
+                            <div style="margin:0px;width:98px;height:11px;border-collapse:collapse;background:url(&quot;https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/logo/ANIWEAVE_textlogo_primary.png&quot;) left center/contain no-repeat;"
+                                alt="ANIWEAVE"></div>
+                        </td>
+                        <td style="padding: 8px 12px 8px 0px">
+                            <table cellpadding="0" cellspacing="0" border="0" align="right" style="border-collapse:collapse;">
+                                <tbody>
+                                    <tr>
+                                        <td valign="middle" style="padding:0px 4px 0px 0px;">
+                                            <a href="https://tw.linkedin.com/company/aniweave-ai?trk=public_post-text"><img
+                                                    style="height:19px;vertical-align:middle;border:0;"
+                                                    src="https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/icons/linkedin.png"
+                                                    alt="LinkedIn"></a>
+                                        </td>
+                                        <td valign="middle" style="padding:0px 4px 0px 0px;">
+                                            <a href="https://www.youtube.com/@ANIWEAVE_AI"><img
+                                                    style="height:19px;vertical-align:middle;border:0;"
+                                                    src="https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/icons/youtube.png"
+                                                    alt="YouTube"></a>
+                                        </td>
+                                        <td valign="middle" style="padding:0px 4px 0px 0px;">
+                                            <a href="https://www.instagram.com/anima.aniweave"><img
+                                                    style="height:19px;vertical-align:middle;border:0;"
+                                                    src="https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/icons/instagram.png"
+                                                    alt="Instagram"></a>
+                                        </td>
+                                        <td valign="middle" style="padding:0px;">
+                                            <a href="https://www.aniweave.ai/"><img
+                                                    style="height:19px;vertical-align:middle;border:0;"
+                                                    src="https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/icons/website.png"
+                                                    alt="Website"></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <button id="copyBtn" type="button">複製簽名</button>
+    <span id="copyStatus"></span>
+
+    <h2>Step 4 — 貼到 Gmail</h2>
+    <ol>
+        <li>開啟 Gmail，點右上角齒輪 → 「查看所有設定」</li>
+        <li>在「一般設定」頁籤找到「簽名」</li>
+        <li>點「建立新簽名」，輸入名稱（如：aniweave）</li>
+        <li>在編輯區貼上（Cmd/Ctrl+V）</li>
+        <li>拉到頁面最下方按「儲存變更」</li>
+    </ol>
+
+    <h2>Step 5 — 設為預設（選擇性）</h2>
+    <p>若希望自動套用，可在「簽名預設值」設定中，將新郵件及回覆郵件選擇這份簽名。</p>
+
+    <hr class="divider">
+
+    <script>
+        var fieldMap = {
+            nameEn: 'sigNameEn',
+            nameZh: 'sigNameZh',
+            title: 'sigTitle',
+            mobile: 'sigMobile',
+            tel: 'sigTel',
+            email: 'sigEmail'
+        };
+
+        function updateSignature() {
+            Object.keys(fieldMap).forEach(function (inputId) {
+                var input = document.getElementById(inputId);
+                var target = document.getElementById(fieldMap[inputId]);
+                target.textContent = input.value;
+            });
+        }
+
+        Object.keys(fieldMap).forEach(function (inputId) {
+            document.getElementById(inputId).addEventListener('input', updateSignature);
+        });
+
+        updateSignature();
+
+        document.getElementById('copyBtn').addEventListener('click', function () {
+            var el = document.getElementById('signatureBlock');
+            var range = document.createRange();
+            range.selectNode(el);
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            var ok = false;
+            try {
+                ok = document.execCommand('copy');
+            } catch (e) {
+                ok = false;
+            }
+            selection.removeAllRanges();
+
+            var status = document.getElementById('copyStatus');
+            if (ok) {
+                status.textContent = '已複製！可以貼到 Gmail 簽名編輯器了。';
+                status.style.color = '#2F88B5';
+            } else {
+                status.textContent = '複製失敗，請手動選取上方整個簽名區塊後按 Cmd/Ctrl+C。';
+                status.style.color = '#c0392b';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
