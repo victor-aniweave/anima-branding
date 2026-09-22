@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aniweave 員工 Gmail 簽名檔設定教學</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Nunito Sans", "Noto Sans TC", Arial, sans-serif;
+            max-width: 640px;
+            margin: 40px auto;
+            padding: 0 24px;
+            color: #33454E;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-size: 14px;
+            font-weight: 700;
+            margin: 24px 0 8px;
+        }
+
+        p,
+        li {
+            font-size: 13px;
+            line-height: 1.7;
+            margin: 0 0 4px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #D9D9D9;
+            margin: 40px 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 96px 1fr;
+            gap: 10px 12px;
+            align-items: center;
+            max-width: 420px;
+            margin: 12px 0 20px;
+        }
+
+        .form-grid label {
+            font-size: 13px;
+            color: #33454E;
+        }
+
+        .form-grid input {
+            font-family: inherit;
+            font-size: 13px;
+            padding: 6px 8px;
+            border: 1px solid #D9D9D9;
+            border-radius: 4px;
+            color: #33454E;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-grid input:focus {
+            outline: none;
+            border-color: #80D4FF;
+        }
+
+        .preview-wrapper {
+            border: 1px dashed #D9D9D9;
+            border-radius: 4px;
+            padding: 16px;
+            margin: 12px 0 16px;
+            overflow-x: auto;
+        }
+
+        #copyBtn {
+            background: #1F59E0;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 9px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        #copyBtn:hover {
+            background: #1C51CC;
+        }
+
+        #copyStatus {
+            display: inline-block;
+            margin: 0 0 0 12px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>aniweave 員工 Gmail 簽名檔設定教學</h1>
+
+    <h2>Step 1 — 用瀏覽器開啟</h2>
+    <p><strong>用瀏覽器開啟這份 HTML 檔案</strong>（Chrome 或 Safari 皆可）。</p>
+
+    <h2>Step 2 — 填入你的資料</h2>
+    <p>下面欄位會即時更新下方的簽名預覽，填完確認沒問題後直接複製即可，不需要再手動修改文字。</p>
+    <div class="form-grid">
+        <label for="nameEn">英文名</label>
+        <input id="nameEn" type="text" value="Victor Chang">
+
+        <label for="nameZh">中文名</label>
+        <input id="nameZh" type="text" value="張庭維">
+
+        <label for="title">職稱</label>
+        <input id="title" type="text" value="UI/UX Designer">
+
+        <label for="mobile">手機</label>
+        <input id="mobile" type="text" value="+886 936 928 372">
+
+        <label for="tel">公司電話</label>
+        <input id="tel" type="text" value="+886 2 2755 2099">
+
+        <label for="email">Email</label>
+        <input id="email" type="text" value="victor.chang@aniweave.ai">
+    </div>
+
+    <h2>Step 3 — 複製簽名</h2>
+    <p>確認下方預覽正確後，點「複製簽名」按鈕即可整組複製（含格式、圖片）。</p>
+    <p style="color:#8C8C8C;">V3 實驗版：姓名／職稱／logo／聯絡資訊改成用 canvas 畫成一張圖再貼上，避免 Gmail 手機版把文字重新排版。icon 那排維持原本的 HTML，還是可以點擊。</p>
+
+    <canvas id="sigCanvas" style="display:none;"></canvas>
+
+    <div class="preview-wrapper">
+        <div id="signatureBlock">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                style="border-collapse:collapse;width:100%;max-width:500px;background:url(&quot;https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/backgrounds/gmail_signature_v2_bg.jpg&quot;) center center/cover no-repeat;font-family:&quot;Nunito Sans&quot;,&quot;Noto Sans TC&quot;,sans-serif">
+                <tbody>
+                    <tr>
+                        <td style="padding:0 0 18px 0;">
+                            <img id="sigRenderedImg" src="" alt="Victor Chang signature" style="display:block;border:0;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="margin-top:0;">
+                                <tbody>
+                                    <tr>
+                                        <td width="214" style="width:214px;font-size:0;line-height:0;">&nbsp;</td>
+                                        <td>
+                                            <table cellpadding="0" cellspacing="0" border="0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="padding:0 8px 0 0;">
+                                                            <a href="https://tw.linkedin.com/company/aniweave-ai?trk=public_post-text" style="display:block;"><img
+                                                                    style="display:block;height:16px;vertical-align:middle;border:0;"
+                                                                    src="https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/icons/linkedin.png"
+                                                                    alt="LinkedIn"></a>
+                                                        </td>
+                                                        <td style="padding:0 8px 0 0;">
+                                                            <a href="https://www.youtube.com/@ANIWEAVE_AI" style="display:block;"><img
+                                                                    style="display:block;height:16px;vertical-align:middle;border:0;"
+                                                                    src="https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/icons/youtube.png"
+                                                                    alt="YouTube"></a>
+                                                        </td>
+                                                        <td style="padding:0 8px 0 0;">
+                                                            <a href="https://www.instagram.com/anima.aniweave" style="display:block;"><img
+                                                                    style="display:block;height:16px;vertical-align:middle;border:0;"
+                                                                    src="https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/icons/instagram.png"
+                                                                    alt="Instagram"></a>
+                                                        </td>
+                                                        <td style="padding:0;">
+                                                            <a href="https://www.aniweave.ai/" style="display:block;"><img
+                                                                    style="display:block;height:16px;vertical-align:middle;border:0;"
+                                                                    src="https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/icons/website.png"
+                                                                    alt="Website"></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <button id="copyBtn" type="button">複製簽名</button>
+    <span id="copyStatus"></span>
+
+    <h2>Step 4 — 貼到 Gmail</h2>
+    <ol>
+        <li>開啟 Gmail，點右上角齒輪 → 「查看所有設定」</li>
+        <li>在「一般設定」頁籤找到「簽名」</li>
+        <li>點「建立新簽名」，輸入名稱（如：aniweave）</li>
+        <li>在編輯區貼上（Cmd/Ctrl+V）</li>
+        <li>拉到頁面最下方按「儲存變更」</li>
+    </ol>
+
+    <h2>Step 5 — 設為預設（選擇性）</h2>
+    <p>若希望自動套用，可在「簽名預設值」設定中，將新郵件及回覆郵件選擇這份簽名。</p>
+
+    <hr class="divider">
+
+    <script>
+        var fieldMap = {
+            nameEn: 'sigNameEn',
+            nameZh: 'sigNameZh',
+            title: 'sigTitle',
+            mobile: 'sigMobile',
+            tel: 'sigTel',
+            email: 'sigEmail'
+        };
+
+        // ---- canvas 繪圖：logo + 分隔線 + 姓名/職稱/M/T/E，畫成一張透明背景的 PNG ----
+        // 座標全部照 Figma node 254:2106 的實際數值（不是猜的、不是置中算的）
+        var DPR = 4; // 用 4x 畫，輸出更銳利
+        var IMG_W = 500;
+        var IMG_H = 157;
+
+        // logo 欄：x=0, width=168.775（40 內距 + 88.775 logo寬 + 40 內距）
+        var LOGO_CONTENT_X = 40;
+        var LOGO_CONTENT_W = 88.775;
+        var LOGO_STACK_TOP = 50; // 18(整體上緣) + 32(logo 欄自己的 padding-top)
+        var LOGOMARK_W = 60.68, LOGOMARK_H = 56.471;
+        var TEXTLOGO_W = 88.775, TEXTLOGO_H = 15.686;
+        var LOGO_GAP = 7.843; // logomark 到 textlogo 的間距
+        var BY_GAP = 12; // textlogo 到 by ANIWEAVE 的間距
+
+        // 分隔線欄：x=168.775，寬 8。上面 16px 留白，下面是「兩條平行線」：
+        // 左邊那條貫穿全長（34~157），右邊那條只在中間 88px 出現（51.5~139.5）
+        var DIVIDER_COL_X = 168.775;
+        var DIVIDER_LEFT_X = DIVIDER_COL_X;
+        var DIVIDER_RIGHT_X = DIVIDER_COL_X + 8;
+        var DIVIDER_TOP = 18 + 16; // 34
+        var DIVIDER_ACCENT_TOP = DIVIDER_TOP + 17.5; // 51.5
+        var DIVIDER_ACCENT_H = 88;
+
+        // 內容欄：x = 168.775 + 8 + 40(padding) = 216.775
+        var CONTENT_X = 216.775;
+        var CONTENT_TOP = 18 + 16 + 15; // 49：18(整體上緣) + 16(隱藏 icon 佔位) + 15(gap)
+
+        var logomarkImg = new Image();
+        var textlogoImg = new Image();
+        var assetsLoaded = { logomark: false, textlogo: false };
+        logomarkImg.crossOrigin = 'anonymous';
+        textlogoImg.crossOrigin = 'anonymous';
+        logomarkImg.onload = function () { assetsLoaded.logomark = true; renderSignature(); };
+        textlogoImg.onload = function () { assetsLoaded.textlogo = true; renderSignature(); };
+        logomarkImg.src = 'https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/logo/ANIMA_logomark_default.png';
+        textlogoImg.src = 'https://raw.githubusercontent.com/victor-aniweave/anima-branding/main/anima-brand/assets/logo/ANIMA_textlogo_primary.png';
+
+        function drawSpacedText(ctx, text, x, y, spacing) {
+            var cx = x;
+            for (var i = 0; i < text.length; i++) {
+                ctx.fillText(text[i], cx, y);
+                cx += ctx.measureText(text[i]).width + spacing;
+            }
+            return cx - spacing;
+        }
+
+        function renderSignature() {
+            var canvas = document.getElementById('sigCanvas');
+            canvas.width = IMG_W * DPR;
+            canvas.height = IMG_H * DPR;
+            var ctx = canvas.getContext('2d');
+            ctx.scale(DPR, DPR);
+            ctx.clearRect(0, 0, IMG_W, IMG_H);
+
+            var nameEn = document.getElementById('nameEn').value;
+            var nameZh = document.getElementById('nameZh').value;
+            var title = document.getElementById('title').value;
+            var mobile = document.getElementById('mobile').value;
+            var tel = document.getElementById('tel').value;
+            var email = document.getElementById('email').value;
+
+            ctx.textBaseline = 'alphabetic';
+
+            // logomark（icon 圖案，比欄寬窄，置中）
+            var logomarkX = LOGO_CONTENT_X + (LOGO_CONTENT_W - LOGOMARK_W) / 2;
+            if (assetsLoaded.logomark) {
+                ctx.drawImage(logomarkImg, logomarkX, LOGO_STACK_TOP, LOGOMARK_W, LOGOMARK_H);
+            }
+
+            // textlogo（ANIMA 文字商標，跟欄同寬）
+            var textlogoY = LOGO_STACK_TOP + LOGOMARK_H + LOGO_GAP;
+            if (assetsLoaded.textlogo) {
+                ctx.drawImage(textlogoImg, LOGO_CONTENT_X, textlogoY, TEXTLOGO_W, TEXTLOGO_H);
+            }
+
+            // by ANIWEAVE，先量寬度再置中
+            ctx.font = '400 9px "Nunito Sans","Noto Sans TC",sans-serif';
+            var byStr = 'by ANIWEAVE';
+            var byTotalWidth = 0;
+            for (var bi = 0; bi < byStr.length; bi++) {
+                byTotalWidth += ctx.measureText(byStr[bi]).width + 0.5;
+            }
+            byTotalWidth -= 0.5;
+            var byX = LOGO_CONTENT_X + (LOGO_CONTENT_W - byTotalWidth) / 2;
+            var byTop = textlogoY + TEXTLOGO_H + BY_GAP;
+            ctx.fillStyle = '#33454E';
+            drawSpacedText(ctx, byStr, byX, byTop + 9 * 0.85, 0.5);
+
+            // 右側內容區塊：姓名 → 職稱 → M/T/E，line-height 1.2，baseline 用 0.85 估算
+            var nameLH = 16 * 1.2, nameAscent = 16 * 0.85;
+            var titleLH = 13 * 1.2, titleAscent = 13 * 0.85;
+            var rowLH = 10 * 1.2, rowAscent = 10 * 0.85;
+
+            var nameLineTop = CONTENT_TOP;
+            var nameY = nameLineTop + nameAscent;
+            var titleLineTop = nameLineTop + nameLH + 2; // gap-2
+            var titleY = titleLineTop + titleAscent;
+            var mLineTop = titleLineTop + titleLH + 15; // gap-15
+            var mY = mLineTop + rowAscent;
+            var tY = mY + rowLH + 2; // gap-2
+            var eY = tY + rowLH + 2; // gap-2
+            var eLineBottom = eY + (rowLH - rowAscent);
+
+            // 分隔線：左邊一條貫穿全長，右邊一條只在中間（跟 M/T/E 對齊）疊出雙線效果
+            ctx.strokeStyle = '#A8E2FF';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(DIVIDER_LEFT_X + 0.5, DIVIDER_TOP);
+            ctx.lineTo(DIVIDER_LEFT_X + 0.5, IMG_H);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(DIVIDER_RIGHT_X - 0.5, DIVIDER_ACCENT_TOP);
+            ctx.lineTo(DIVIDER_RIGHT_X - 0.5, DIVIDER_ACCENT_TOP + DIVIDER_ACCENT_H);
+            ctx.stroke();
+
+            // 姓名
+            ctx.fillStyle = '#33454E';
+            ctx.font = '700 16px "Nunito Sans","Noto Sans TC",sans-serif';
+            var afterEn = CONTENT_X;
+            for (var ei = 0; ei < nameEn.length; ei++) {
+                ctx.fillText(nameEn[ei], afterEn, nameY);
+                afterEn += ctx.measureText(nameEn[ei]).width;
+            }
+            var zhX = afterEn + 16;
+            drawSpacedText(ctx, nameZh, zhX, nameY, 5);
+
+            // 職稱（跟姓名同色 #33454E，不是灰色）
+            ctx.fillStyle = '#33454E';
+            ctx.font = '400 13px "Nunito Sans","Noto Sans TC",sans-serif';
+            ctx.fillText(title, CONTENT_X, titleY);
+
+            // M / T / E，標籤跟數值中間 gap 是 4px（不是 6px）
+            var rows = [
+                { label: 'M', value: mobile, y: mY },
+                { label: 'T', value: tel, y: tY },
+                { label: 'E', value: email, y: eY }
+            ];
+            rows.forEach(function (row) {
+                var rowY = row.y;
+                ctx.fillStyle = '#33454E';
+                ctx.font = '700 10px "Nunito Sans","Noto Sans TC",sans-serif';
+                ctx.fillText(row.label + ':', CONTENT_X, rowY);
+                var labelWidth = ctx.measureText(row.label + ':').width;
+                ctx.font = '400 10px "Nunito Sans","Noto Sans TC",sans-serif';
+                ctx.fillText(row.value, CONTENT_X + 12 + 4, rowY);
+            });
+
+            var dataUrl = canvas.toDataURL('image/png');
+            var img = document.getElementById('sigRenderedImg');
+            img.src = dataUrl;
+            img.width = IMG_W;
+            img.height = IMG_H;
+        }
+
+        function updateSignature() {
+            renderSignature();
+        }
+
+        Object.keys(fieldMap).forEach(function (inputId) {
+            document.getElementById(inputId).addEventListener('input', updateSignature);
+        });
+
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(function () { renderSignature(); });
+        }
+        renderSignature();
+
+        document.getElementById('copyBtn').addEventListener('click', function () {
+            var el = document.getElementById('signatureBlock');
+            var range = document.createRange();
+            range.selectNode(el);
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            var ok = false;
+            try {
+                ok = document.execCommand('copy');
+            } catch (e) {
+                ok = false;
+            }
+            selection.removeAllRanges();
+
+            var status = document.getElementById('copyStatus');
+            if (ok) {
+                status.textContent = '已複製！可以貼到 Gmail 簽名編輯器了。';
+                status.style.color = '#2F88B5';
+            } else {
+                status.textContent = '複製失敗，請手動選取上方整個簽名區塊後按 Cmd/Ctrl+C。';
+                status.style.color = '#c0392b';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
