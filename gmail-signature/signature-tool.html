@@ -154,7 +154,7 @@
                             <table cellpadding="0" cellspacing="0" border="0" style="margin-top:0;">
                                 <tbody>
                                     <tr>
-                                        <td width="214" style="width:214px;font-size:0;line-height:0;">&nbsp;</td>
+                                        <td width="215" style="width:215px;font-size:0;line-height:0;">&nbsp;</td>
                                         <td>
                                             <table cellpadding="0" cellspacing="0" border="0">
                                                 <tbody>
@@ -366,8 +366,13 @@
                 var rowY = row.y;
                 ctx.fillStyle = '#33454E';
                 ctx.font = '700 10px "Nunito Sans","Noto Sans TC",sans-serif';
-                ctx.fillText(row.label + ':', CONTENT_X, rowY);
-                var labelWidth = ctx.measureText(row.label + ':').width;
+                // 字母（M/T/E）在 9px 寬的框裡置中，冒號固定貼在 12px 處右對齊
+                // 這樣不管字母本身多寬，三個冒號都會對在同一個 x 座標上
+                ctx.textAlign = 'center';
+                ctx.fillText(row.label, CONTENT_X + 4.5, rowY);
+                ctx.textAlign = 'right';
+                ctx.fillText(':', CONTENT_X + 12, rowY);
+                ctx.textAlign = 'left';
                 ctx.font = '400 10px "Nunito Sans","Noto Sans TC",sans-serif';
                 ctx.fillText(row.value, CONTENT_X + 12 + 4, rowY);
             });
