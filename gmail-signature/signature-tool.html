@@ -130,8 +130,11 @@
         <label for="mobile">手機</label>
         <input id="mobile" type="text" value="+886 936 928 372">
 
+        <label for="showMobile">顯示手機</label>
+        <input id="showMobile" type="checkbox" checked style="width:auto;justify-self:start;">
+
         <label for="tel">公司電話</label>
-        <input id="tel" type="text" value="+886 2 2755 2099">
+        <input id="tel" type="text" value="+886 2 2775 2099">
 
         <label for="email">Email</label>
         <input id="email" type="text" value="victor.chang@aniweave.ai">
@@ -314,21 +317,35 @@
             drawSpacedText(ctx, byStr, byX, byTop + 9 * 0.85, 0.5);
 
             // 右側內容區塊：姓名 → 職稱 → M/T/E，line-height 1.2，baseline 用 0.85 估算
+            var showMobile = document.getElementById('showMobile').checked;
             var nameLH = 16 * 1.2, nameAscent = 16 * 0.85;
             var titleLH = 13 * 1.2, titleAscent = 13 * 0.85;
             var rowLH = 10 * 1.2, rowAscent = 10 * 0.85;
+            var rowStep = rowLH + 2; // 一行 + gap-2
 
-            var nameLineTop = CONTENT_TOP;
+            // 手機那行隱藏時，少一行的高度讓整塊內容往下移半格，看起來還是置中
+            var shift = showMobile ? 0 : rowStep / 2;
+
+            var nameLineTop = CONTENT_TOP + shift;
             var nameY = nameLineTop + nameAscent;
             var titleLineTop = nameLineTop + nameLH + 2; // gap-2
             var titleY = titleLineTop + titleAscent;
-            var mLineTop = titleLineTop + titleLH + 15; // gap-15
-            var mY = mLineTop + rowAscent;
-            var tY = mY + rowLH + 2; // gap-2
-            var eY = tY + rowLH + 2; // gap-2
-            var eLineBottom = eY + (rowLH - rowAscent);
+            var contactBlockTop = titleLineTop + titleLH + 15; // gap-15
 
-            // 分隔線：左邊一條貫穿全長，右邊一條只在中間（跟 M/T/E 對齊）疊出雙線效果
+            var contactRows = [];
+            if (showMobile) {
+                contactRows.push({ label: 'M', value: mobile });
+            }
+            contactRows.push({ label: 'T', value: tel });
+            contactRows.push({ label: 'E', value: email });
+            contactRows.forEach(function (row, idx) {
+                row.y = contactBlockTop + idx * rowStep + rowAscent;
+            });
+            var contactBlockBottom = contactBlockTop + (contactRows.length - 1) * rowStep + rowLH;
+
+            // 分隔線：左邊一條貫穿全長，右邊一條疊在中間那段——手機隱藏時跟著少一行、往下移
+            var accentTop = DIVIDER_ACCENT_TOP;
+            var accentH = DIVIDER_ACCENT_H;
             ctx.strokeStyle = '#A8E2FF';
             ctx.lineWidth = 1;
             ctx.beginPath();
@@ -336,8 +353,8 @@
             ctx.lineTo(DIVIDER_LEFT_X + 0.5, IMG_H);
             ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo(DIVIDER_RIGHT_X - 0.5, DIVIDER_ACCENT_TOP);
-            ctx.lineTo(DIVIDER_RIGHT_X - 0.5, DIVIDER_ACCENT_TOP + DIVIDER_ACCENT_H);
+            ctx.moveTo(DIVIDER_RIGHT_X - 0.5, accentTop);
+            ctx.lineTo(DIVIDER_RIGHT_X - 0.5, accentTop + accentH);
             ctx.stroke();
 
             // 姓名
@@ -356,13 +373,8 @@
             ctx.font = '400 13px "Nunito Sans","Noto Sans TC",sans-serif';
             ctx.fillText(title, CONTENT_X, titleY);
 
-            // M / T / E，標籤跟數值中間 gap 是 4px（不是 6px）
-            var rows = [
-                { label: 'M', value: mobile, y: mY },
-                { label: 'T', value: tel, y: tY },
-                { label: 'E', value: email, y: eY }
-            ];
-            rows.forEach(function (row) {
+            // M / T / E（手機隱藏時只剩 T/E），標籤跟數值中間 gap 是 4px（不是 6px）
+            contactRows.forEach(function (row) {
                 var rowY = row.y;
                 ctx.fillStyle = '#33454E';
                 ctx.font = '700 10px "Nunito Sans","Noto Sans TC",sans-serif';
@@ -391,6 +403,7 @@
         Object.keys(fieldMap).forEach(function (inputId) {
             document.getElementById(inputId).addEventListener('input', updateSignature);
         });
+        document.getElementById('showMobile').addEventListener('change', updateSignature);
 
         if (document.fonts && document.fonts.ready) {
             document.fonts.ready.then(function () { renderSignature(); });
