@@ -260,6 +260,50 @@
             font-size: 13px;
         }
 
+        #imageModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        #imageModal.open {
+            display: flex;
+        }
+
+        #imageModal p {
+            color: #fff;
+            font-size: 14px;
+            text-align: center;
+            margin: 0 0 14px;
+        }
+
+        #imageModal img {
+            max-width: 100%;
+            max-height: 68vh;
+            border-radius: 4px;
+            -webkit-touch-callout: default;
+        }
+
+        #closeModalBtn {
+            margin-top: 18px;
+            padding: 9px 24px;
+            border-radius: 4px;
+            border: none;
+            background: #fff;
+            color: #1F59E0;
+            font-weight: 700;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
         .btn {
             background: #1F59E0;
             color: #fff;
@@ -390,6 +434,12 @@
     <span id="exportStatus"></span>
 
     <hr class="divider">
+
+    <div id="imageModal">
+        <p>手機瀏覽器無法直接下載，請長按下方圖片，選擇「儲存圖片」即可存到相簿</p>
+        <img id="modalImg" src="" alt="名片圖片">
+        <button id="closeModalBtn" type="button">關閉</button>
+    </div>
 
     <script>
         // 正面底圖：直接來自 Figma node 329:2165 的原始底圖（乾淨無文字）
@@ -522,19 +572,69 @@
         }
         updateCard();
 
-        function triggerDownload(dataUrl, filename) {
-            var a = document.createElement('a');
-            a.href = dataUrl;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
         function setStatus(msg, isError) {
             var el = document.getElementById('exportStatus');
             el.textContent = msg;
             el.style.color = isError ? '#c0392b' : '#2F88B5';
+        }
+
+        function isMobileBrowser() {
+            return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        }
+
+        function showImageModal(url) {
+            document.getElementById('modalImg').src = url;
+            document.getElementById('imageModal').classList.add('open');
+        }
+
+        document.getElementById('closeModalBtn').addEventListener('click', function () {
+            document.getElementById('imageModal').classList.remove('open');
+        });
+
+        // 手機瀏覽器（尤其 iOS Safari）對 <a download> + data/blob URL 常常完全沒反應。
+        // 這裡優先用原生分享（可直接存到相簿），分享不支援或被取消時，
+        // 桌機退回傳統下載連結；手機則直接把圖片顯示出來讓使用者長按儲存，確保一定拿得到圖。
+        function saveBlob(blob, filename) {
+            var file;
+            try {
+                file = new File([blob], filename, { type: blob.type || 'image/png' });
+            } catch (e) {
+                file = null;
+            }
+
+            if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+                navigator.share({ files: [file] }).then(function () {
+                    setStatus(filename + ' 已透過分享儲存！');
+                }).catch(function (err) {
+                    if (err && err.name === 'AbortError') {
+                        setStatus('已取消分享。');
+                        return;
+                    }
+                    fallbackSave(blob, filename);
+                });
+                return;
+            }
+
+            fallbackSave(blob, filename);
+        }
+
+        function fallbackSave(blob, filename) {
+            var url = URL.createObjectURL(blob);
+
+            if (isMobileBrowser()) {
+                showImageModal(url);
+                setStatus('請長按下方圖片儲存到相簿。');
+                return;
+            }
+
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(function () { URL.revokeObjectURL(url); }, 30000);
+            setStatus(filename + ' 已下載！');
         }
 
         function renderFrontCanvas() {
@@ -563,8 +663,9 @@
         document.getElementById('downloadFrontBtn').addEventListener('click', function () {
             setStatus('產生正面圖片中…');
             renderFrontCanvas().then(function (canvas) {
-                triggerDownload(canvas.toDataURL('image/png'), 'ANIWEAVE_名片正面_' + nameEnForFile() + '.png');
-                setStatus('正面 PNG 已下載！');
+                canvas.toBlob(function (blob) {
+                    saveBlob(blob, 'ANIWEAVE_名片正面_' + nameEnForFile() + '.png');
+                }, 'image/png');
             }).catch(function (err) {
                 console.error(err);
                 setStatus('產生失敗，請確認網路連線後重試。', true);
@@ -572,8 +673,13 @@
         });
 
         document.getElementById('downloadBackBtn').addEventListener('click', function () {
-            triggerDownload(BACK_IMG_URL, 'ANIWEAVE_名片背面.png');
-            setStatus('背面 PNG 已下載！');
+            setStatus('準備背面圖片中…');
+            fetch(BACK_IMG_URL).then(function (r) { return r.blob(); }).then(function (blob) {
+                saveBlob(blob, 'ANIWEAVE_名片背面.png');
+            }).catch(function (err) {
+                console.error(err);
+                setStatus('背面圖片準備失敗，請確認網路連線後重試。', true);
+            });
         });
 
         document.getElementById('downloadBothBtn').addEventListener('click', function () {
@@ -590,8 +696,9 @@
                     var faceH = Math.round(combined.width * ratio);
                     ctx.drawImage(frontCanvas, 0, 0, combined.width, faceH);
                     ctx.drawImage(backImg, 0, faceH, combined.width, faceH);
-                    triggerDownload(combined.toDataURL('image/png'), 'ANIWEAVE_名片正反面_' + nameEnForFile() + '.png');
-                    setStatus('正反面合併圖已下載！');
+                    combined.toBlob(function (blob) {
+                        saveBlob(blob, 'ANIWEAVE_名片正反面_' + nameEnForFile() + '.png');
+                    }, 'image/png');
                 };
                 backImg.onerror = function () {
                     setStatus('背面圖片載入失敗，請確認網路連線後重試。', true);
