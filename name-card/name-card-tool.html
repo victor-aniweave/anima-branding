@@ -595,6 +595,12 @@
         // 這裡優先用原生分享（可直接存到相簿），分享不支援或被取消時，
         // 桌機退回傳統下載連結；手機則直接把圖片顯示出來讓使用者長按儲存，確保一定拿得到圖。
         function saveBlob(blob, filename) {
+            // 電腦版一律直接下載，不要跳分享面板；分享面板只在手機（直接下載本身不可靠時）才用
+            if (!isMobileBrowser()) {
+                fallbackSave(blob, filename);
+                return;
+            }
+
             var file;
             try {
                 file = new File([blob], filename, { type: blob.type || 'image/png' });
