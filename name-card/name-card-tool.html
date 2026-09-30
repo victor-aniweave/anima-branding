@@ -97,7 +97,7 @@
             gap: 8px;
         }
 
-        .preview-item span {
+        .preview-item > span {
             font-size: 12px;
             color: #8C8C8C;
         }
@@ -133,48 +133,36 @@
             object-fit: cover;
         }
 
-        /* ---- 正面卡片內容（座標數值取自 Figma node 329:2165） ---- */
-        .card-content {
+        /* ---- 正面卡片內容：座標直接取自 Figma node 329:2165 的 metadata（x/y/width/height），
+               用 position:absolute 對應，不用 flex 湊間距，確保跟 Figma 完全一致 ---- */
+        .name-en {
             position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 72px 56px 48px;
-            box-sizing: border-box;
-        }
-
-        .name-block {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            white-space: nowrap;
-        }
-
-        .name-row {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
-        .name-row .name-en {
+            left: 56px;
+            top: 72px;
             font-family: "Nunito Sans", sans-serif;
             font-weight: 700;
             font-size: 48px;
             line-height: 1.1;
             color: #33454E;
+            white-space: nowrap;
         }
 
-        .name-row .name-zh {
-            font-family: "Nunito Sans", -apple-system, "PingFang TC", "Noto Sans TC", sans-serif;
+        .name-zh {
+            position: absolute;
+            top: 72px;
+            font-family: "Noto Sans TC", "Nunito Sans", sans-serif;
             font-weight: 700;
             font-size: 44px;
             line-height: 1.2;
             letter-spacing: 6.6px;
             color: #33454E;
+            white-space: nowrap;
         }
 
         .title-row {
+            position: absolute;
+            left: 56px;
+            top: 133px;
             font-family: "Nunito Sans", sans-serif;
             font-weight: 400;
             font-size: 28px;
@@ -182,72 +170,47 @@
             letter-spacing: 1.4px;
             text-transform: uppercase;
             color: #42BFFF;
+            white-space: nowrap;
         }
 
-        .bottom-row {
-            display: flex;
-            align-items: flex-end;
-            width: 100%;
-        }
-
-        .info-block {
-            width: 394px;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .info-block .website {
-            height: 30px;
+        .website {
+            position: absolute;
+            left: 56px;
+            top: 421px;
+            height: 38px;
             display: flex;
             align-items: center;
+            font-family: "Nunito Sans", sans-serif;
             font-size: 28px;
             letter-spacing: 0.56px;
             color: #33454E;
+            white-space: nowrap;
         }
 
-        .info-block .company-zh {
-            font-family: "Nunito Sans", -apple-system, "PingFang TC", "Noto Sans TC", sans-serif;
-            padding: 6.5px 0;
+        .company-zh {
+            position: absolute;
+            left: 56px;
+            top: 463.5px;
+            width: 348px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            font-family: "Noto Sans TC", "Nunito Sans", sans-serif;
             font-size: 24px;
             line-height: 28px;
             letter-spacing: 0.96px;
-            width: 348px;
             color: #33454E;
         }
 
-        .contact-block {
-            flex: 1 0 0;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .contact-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .contact-row.addr-row {
-            align-items: flex-start;
-            width: 100%;
-        }
-
-        .contact-row .label-pipe {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .contact-row .label {
+        .label {
+            position: absolute;
+            left: 450px;
             width: 30px;
             height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-family: "Nunito Sans", sans-serif;
             font-weight: 700;
             font-size: 30px;
             line-height: 36px;
@@ -255,24 +218,32 @@
             color: #33454E;
         }
 
-        .contact-row .pipe {
+        .pipe {
+            position: absolute;
+            left: 492px;
             width: 1px;
             height: 24px;
             background: #ABBDC5;
-            flex-shrink: 0;
         }
 
-        .contact-row .value {
-            font-family: "Nunito Sans", -apple-system, "PingFang TC", "Noto Sans TC", sans-serif;
+        .value {
+            position: absolute;
+            left: 504px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            font-family: "Nunito Sans", "Noto Sans TC", sans-serif;
             font-size: 28px;
             letter-spacing: 0.56px;
             color: #33454E;
             white-space: nowrap;
         }
 
-        .contact-row.addr-row .value {
-            flex: 1 0 0;
-            padding: 6.5px 0;
+        .value.addr-value {
+            width: 340px;
+            height: auto;
+            display: block;
+            padding-top: 6.5px;
             font-size: 24px;
             line-height: 28px;
             letter-spacing: 0.48px;
@@ -373,34 +344,31 @@
             <span>正面</span>
             <div class="preview-scale">
                 <div id="cardFront" class="card-face">
-                    <div class="card-content">
-                        <div class="name-block">
-                            <div class="name-row">
-                                <span id="outNameEn" class="name-en"></span>
-                                <span id="outNameZh" class="name-zh"></span>
-                            </div>
-                            <div id="outTitle" class="title-row"></div>
-                        </div>
-                        <div class="bottom-row">
-                            <div class="info-block">
-                                <div id="outWebsite" class="website"></div>
-                                <div id="outCompanyZh" class="company-zh"></div>
-                            </div>
-                            <div class="contact-block">
-                                <div class="contact-row" id="rowMobile">
-                                    <span class="label-pipe"><span class="label">M</span><span class="pipe"></span></span><span class="value" id="outMobile"></span>
-                                </div>
-                                <div class="contact-row">
-                                    <span class="label-pipe"><span class="label">T</span><span class="pipe"></span></span><span class="value" id="outTel"></span>
-                                </div>
-                                <div class="contact-row">
-                                    <span class="label-pipe"><span class="label">E</span><span class="pipe"></span></span><span class="value" id="outEmail"></span>
-                                </div>
-                                <div class="contact-row addr-row">
-                                    <span class="label-pipe"><span class="label">A</span><span class="pipe"></span></span><span class="value" id="outAddress"></span>
-                                </div>
-                            </div>
-                        </div>
+                    <span id="outNameEn" class="name-en"></span>
+                    <span id="outNameZh" class="name-zh"></span>
+                    <div id="outTitle" class="title-row"></div>
+                    <div id="outWebsite" class="website"></div>
+                    <div id="outCompanyZh" class="company-zh"></div>
+
+                    <div class="contact-row" id="rowMobile">
+                        <span class="label" id="labelMobile">M</span>
+                        <span class="pipe" id="pipeMobile"></span>
+                        <span class="value" id="outMobile"></span>
+                    </div>
+                    <div class="contact-row" id="rowTel">
+                        <span class="label" id="labelTel">T</span>
+                        <span class="pipe" id="pipeTel"></span>
+                        <span class="value" id="outTel"></span>
+                    </div>
+                    <div class="contact-row" id="rowEmail">
+                        <span class="label" id="labelEmail">E</span>
+                        <span class="pipe" id="pipeEmail"></span>
+                        <span class="value" id="outEmail"></span>
+                    </div>
+                    <div class="contact-row" id="rowAddress">
+                        <span class="label" id="labelAddress">A</span>
+                        <span class="pipe" id="pipeAddress"></span>
+                        <span class="value addr-value" id="outAddress"></span>
                     </div>
                 </div>
             </div>
@@ -438,8 +406,40 @@
         var NAME_MAX_WIDTH = 788; // 卡片內容可用寬度（900 - 56*2），姓名超過就自動縮小字級
         var NAME_EN_BASE = 48, NAME_ZH_BASE = 44;
         var NAME_MIN_SCALE = 0.55;
+        var NAME_LEFT = 56, NAME_GAP = 32; // Figma: 56,72 起，兩段姓名 gap-32
+
+        // 聯絡資訊每一列的座標（取自 Figma metadata，index 0 = 第一列 M 的位置）
+        var ROW_STEP = 46;
+        var LABEL_TOP0 = 296.5, PIPE_TOP0 = 299, VALUE_TOP0 = 293;
+        var ADDR_VALUE_TOP_AT_INDEX3 = 435.5; // 地址列本身較高（padding-top 6.5），用實測值往回推其他 index
 
         var fieldIds = ['nameEn', 'nameZh', 'title', 'mobile', 'tel', 'email', 'website', 'companyZh', 'addr1', 'addr2'];
+
+        function positionRow(key, index) {
+            document.getElementById('label' + key).style.top = (LABEL_TOP0 + index * ROW_STEP) + 'px';
+            document.getElementById('pipe' + key).style.top = (PIPE_TOP0 + index * ROW_STEP) + 'px';
+            var valueTop = (key === 'Address')
+                ? (ADDR_VALUE_TOP_AT_INDEX3 - (3 - index) * ROW_STEP)
+                : (VALUE_TOP0 + index * ROW_STEP);
+            document.getElementById('out' + key).style.top = valueTop + 'px';
+        }
+
+        function layoutContactRows(showMobile) {
+            var idx = 0;
+            if (showMobile) {
+                positionRow('Mobile', 0);
+                idx = 1;
+            }
+            positionRow('Tel', idx); idx++;
+            positionRow('Email', idx); idx++;
+            positionRow('Address', idx);
+        }
+
+        function positionNameRow() {
+            var enSpan = document.getElementById('outNameEn');
+            var zhSpan = document.getElementById('outNameZh');
+            zhSpan.style.left = (NAME_LEFT + enSpan.offsetWidth + NAME_GAP) + 'px';
+        }
 
         function updateCard() {
             var nameEn = document.getElementById('nameEn').value;
@@ -465,23 +465,24 @@
             document.getElementById('outAddress').innerHTML = addr1 + '<br>' + addr2;
 
             document.getElementById('rowMobile').classList.toggle('mobile-hidden', !showMobile);
+            layoutContactRows(showMobile);
 
             fitNameRow();
         }
 
         function fitNameRow() {
-            var nameRow = document.querySelector('.name-row');
             var enSpan = document.getElementById('outNameEn');
             var zhSpan = document.getElementById('outNameZh');
             enSpan.style.fontSize = NAME_EN_BASE + 'px';
             zhSpan.style.fontSize = NAME_ZH_BASE + 'px';
 
-            var width = nameRow.scrollWidth;
-            if (width > NAME_MAX_WIDTH) {
-                var scale = Math.max(NAME_MIN_SCALE, NAME_MAX_WIDTH / width);
+            var totalWidth = enSpan.offsetWidth + NAME_GAP + zhSpan.offsetWidth;
+            if (totalWidth > NAME_MAX_WIDTH) {
+                var scale = Math.max(NAME_MIN_SCALE, NAME_MAX_WIDTH / totalWidth);
                 enSpan.style.fontSize = (NAME_EN_BASE * scale) + 'px';
                 zhSpan.style.fontSize = (NAME_ZH_BASE * scale) + 'px';
             }
+            positionNameRow();
         }
 
         fieldIds.forEach(function (id) {
