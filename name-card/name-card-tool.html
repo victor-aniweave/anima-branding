@@ -411,27 +411,54 @@
         var ROW_STEP = 46;
         var LABEL_TOP0 = 296.5, PIPE_TOP0 = 299, VALUE_TOP0 = 293;
         var ADDR_VALUE_TOP_AT_INDEX3 = 435.5; // 地址列本身較高（padding-top 6.5），用實測值往回推其他 index
+        var LABEL_LEFT0 = 450, PIPE_LEFT0 = 492, VALUE_LEFT0 = 504;
+        var ADDR_WIDTH0 = 340;
+        var WIDE_SHIFT = 24; // email 太長時，M/T/E/A 整組往左移動的量
+        var EMAIL_REF_TEXT = 'victor.chang@aniweave.ai'; // 超過這個字串「實際渲染寬度」才觸發（字數一樣寬度不一定一樣，比對寬度才準）
 
         var fieldIds = ['nameEn', 'nameZh', 'title', 'mobile', 'tel', 'email', 'website', 'companyZh', 'addr1', 'addr2'];
 
-        function positionRow(key, index) {
+        // 用隱藏元素量測文字實際渲染寬度，字型/letter-spacing 要跟 .value 完全一致
+        var widthMeasureEl = document.createElement('span');
+        widthMeasureEl.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;top:-9999px;left:-9999px;'
+            + 'font-family:"Nunito Sans","Noto Sans TC",sans-serif;font-size:28px;letter-spacing:0.56px;';
+        document.body.appendChild(widthMeasureEl);
+        var emailRefWidth = null;
+        function measureTextWidth(text) {
+            widthMeasureEl.textContent = text;
+            return widthMeasureEl.offsetWidth;
+        }
+        function isEmailWide(email) {
+            if (emailRefWidth === null) emailRefWidth = measureTextWidth(EMAIL_REF_TEXT);
+            return measureTextWidth(email) > emailRefWidth;
+        }
+
+        function positionRow(key, index, shift) {
             document.getElementById('label' + key).style.top = (LABEL_TOP0 + index * ROW_STEP) + 'px';
+            document.getElementById('label' + key).style.left = (LABEL_LEFT0 - shift) + 'px';
             document.getElementById('pipe' + key).style.top = (PIPE_TOP0 + index * ROW_STEP) + 'px';
+            document.getElementById('pipe' + key).style.left = (PIPE_LEFT0 - shift) + 'px';
             var valueTop = (key === 'Address')
                 ? (ADDR_VALUE_TOP_AT_INDEX3 - (3 - index) * ROW_STEP)
                 : (VALUE_TOP0 + index * ROW_STEP);
-            document.getElementById('out' + key).style.top = valueTop + 'px';
+            var valueEl = document.getElementById('out' + key);
+            valueEl.style.top = valueTop + 'px';
+            valueEl.style.left = (VALUE_LEFT0 - shift) + 'px';
+            if (key === 'Address') {
+                valueEl.style.width = (ADDR_WIDTH0 + shift) + 'px';
+            }
         }
 
-        function layoutContactRows(showMobile) {
+        function layoutContactRows(showMobile, wide) {
+            var shift = wide ? WIDE_SHIFT : 0;
             var idx = 0;
             if (showMobile) {
-                positionRow('Mobile', 0);
+                positionRow('Mobile', 0, shift);
                 idx = 1;
             }
-            positionRow('Tel', idx); idx++;
-            positionRow('Email', idx); idx++;
-            positionRow('Address', idx);
+            positionRow('Tel', idx, shift); idx++;
+            positionRow('Email', idx, shift); idx++;
+            positionRow('Address', idx, shift);
         }
 
         function positionNameRow() {
@@ -461,10 +488,12 @@
             document.getElementById('outEmail').textContent = email;
             document.getElementById('outWebsite').textContent = website;
             document.getElementById('outCompanyZh').textContent = companyZh;
-            document.getElementById('outAddress').innerHTML = addr1 + '<br>' + addr2;
+
+            var wide = isEmailWide(email);
+            document.getElementById('outAddress').innerHTML = wide ? (addr1 + ' ' + addr2) : (addr1 + '<br>' + addr2);
 
             document.getElementById('rowMobile').classList.toggle('mobile-hidden', !showMobile);
-            layoutContactRows(showMobile);
+            layoutContactRows(showMobile, wide);
 
             fitNameRow();
         }
