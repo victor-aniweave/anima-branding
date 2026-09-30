@@ -451,14 +451,13 @@
 
         function layoutContactRows(showMobile, wide) {
             var shift = wide ? WIDE_SHIFT : 0;
-            var idx = 0;
+            // 固定 index：M=0,T=1,E=2,A=3，隱藏手機只是空出那一格，其他列不會往上補位
             if (showMobile) {
                 positionRow('Mobile', 0, shift);
-                idx = 1;
             }
-            positionRow('Tel', idx, shift); idx++;
-            positionRow('Email', idx, shift); idx++;
-            positionRow('Address', idx, shift);
+            positionRow('Tel', 1, shift);
+            positionRow('Email', 2, shift);
+            positionRow('Address', 3, shift);
         }
 
         function positionNameRow() {
