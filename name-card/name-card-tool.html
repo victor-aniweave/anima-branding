@@ -361,6 +361,19 @@
         .btn.secondary:hover {
             background: #EEF3FF;
         }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn:disabled:hover {
+            background: #1F59E0;
+        }
+
+        .btn.secondary:disabled:hover {
+            background: #fff;
+        }
     </style>
 </head>
 
@@ -583,6 +596,27 @@
             layoutContactRows(showMobile, wide);
 
             fitNameRow();
+            updateDownloadButtonsState();
+        }
+
+        // 不碰錯誤訊息/紅框，只用來即時判斷下載按鈕要不要 disable
+        function checkFormValidSilent() {
+            var nameEnOk = document.getElementById('nameEn').value.trim() !== '';
+            var nameZhOk = document.getElementById('nameZh').value.trim() !== '';
+            var emailVal = document.getElementById('email').value.trim();
+            var emailOk = emailVal !== '' && EMAIL_FORMAT_RE.test(emailVal);
+            var mobileVal = document.getElementById('mobile').value.trim();
+            var mobileOk = mobileVal === '' || MOBILE_FORMAT_RE.test(mobileVal);
+            var telVal = document.getElementById('tel').value.trim();
+            var telOk = telVal === '' || TEL_FORMAT_RE.test(telVal);
+            return nameEnOk && nameZhOk && emailOk && mobileOk && telOk;
+        }
+
+        function updateDownloadButtonsState() {
+            var valid = checkFormValidSilent();
+            ['downloadFrontBtn', 'downloadBackBtn', 'downloadBothBtn'].forEach(function (id) {
+                document.getElementById(id).disabled = !valid;
+            });
         }
 
         function fitNameRow() {
