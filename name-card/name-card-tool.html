@@ -90,6 +90,19 @@
             margin: -4px 0 2px;
         }
 
+        .form-grid .dim-fields {
+            display: contents;
+        }
+
+        .form-grid .dim-fields label {
+            color: #BFBFBF;
+        }
+
+        .form-grid .dim-fields input {
+            color: #BFBFBF;
+            border-color: #F0F0F0;
+        }
+
         .preview-area {
             display: flex;
             flex-wrap: wrap;
@@ -369,20 +382,22 @@
 
         <div class="subrow">以下公司資訊通常不需要更改：</div>
 
-        <label for="tel">公司電話</label>
-        <input id="tel" type="text" value="+886 2 2775 2099">
+        <div class="dim-fields">
+            <label for="tel">公司電話</label>
+            <input id="tel" type="text" value="+886 2 2775 2099">
 
-        <label for="website">網站</label>
-        <input id="website" type="text" value="aniweave.ai">
+            <label for="website">網站</label>
+            <input id="website" type="text" value="aniweave.ai">
 
-        <label for="companyZh">公司名稱</label>
-        <input id="companyZh" type="text" value="反著來股份有限公司">
+            <label for="companyZh">公司名稱</label>
+            <input id="companyZh" type="text" value="反著來股份有限公司">
 
-        <label for="addr1">地址第一行</label>
-        <input id="addr1" type="text" value="106 台北市大安區光復南路">
+            <label for="addr1">地址第一行</label>
+            <input id="addr1" type="text" value="106 台北市大安區光復南路">
 
-        <label for="addr2">地址第二行</label>
-        <input id="addr2" type="text" value="72 巷 73 號 2 樓">
+            <label for="addr2">地址第二行</label>
+            <input id="addr2" type="text" value="72 巷 73 號 2 樓">
+        </div>
     </div>
 
     <h2>Step 3 — 預覽</h2>
