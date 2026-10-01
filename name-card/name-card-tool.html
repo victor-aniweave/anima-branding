@@ -103,6 +103,18 @@
             border-color: #F0F0F0;
         }
 
+        .form-grid .field-error {
+            grid-column: 1 / -1;
+            font-size: 11px;
+            color: #c0392b;
+            margin: -6px 0 2px;
+            min-height: 14px;
+        }
+
+        .form-grid input.invalid {
+            border-color: #c0392b;
+        }
+
         .preview-area {
             display: flex;
             flex-wrap: wrap;
@@ -373,18 +385,21 @@
 
         <label for="mobile">手機</label>
         <input id="mobile" type="text" value="+886 936 928 372">
+        <div class="field-error" id="mobileError"></div>
 
         <label for="showMobile">顯示手機</label>
         <input id="showMobile" type="checkbox" checked style="width:auto;justify-self:start;">
 
         <label for="email">Email</label>
         <input id="email" type="text" value="victor.chang@aniweave.ai">
+        <div class="field-error" id="emailError"></div>
 
         <div class="subrow">以下公司資訊通常不需要更改：</div>
 
         <div class="dim-fields">
             <label for="tel">公司電話</label>
             <input id="tel" type="text" value="+886 2 2775 2099">
+            <div class="field-error" id="telError"></div>
 
             <label for="website">網站</label>
             <input id="website" type="text" value="aniweave.ai">
@@ -587,6 +602,61 @@
             document.getElementById(id).addEventListener('input', updateCard);
         });
         document.getElementById('showMobile').addEventListener('change', updateCard);
+
+        // ---- 輸入檢查/自動修正：Email 全部小寫、英文名每個單字字首大寫、電話格式驗證 ----
+        var PHONE_FORMAT_RE = /^\+\d+(\s\d+)+$/; // 例如 +886 936 928 372 / +886 2 2775 2099
+        var EMAIL_FORMAT_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        function transformPreservingCursor(input, transformFn) {
+            var start = input.selectionStart, end = input.selectionEnd;
+            var newVal = transformFn(input.value);
+            if (newVal !== input.value) {
+                input.value = newVal;
+                if (start !== null) {
+                    input.setSelectionRange(start, end);
+                }
+            }
+        }
+
+        function capitalizeWords(str) {
+            return str.replace(/(^|\s)([a-z])/g, function (m, sep, ch) { return sep + ch.toUpperCase(); });
+        }
+
+        function setFieldError(inputId, errorId, isValid, message) {
+            document.getElementById(inputId).classList.toggle('invalid', !isValid);
+            document.getElementById(errorId).textContent = isValid ? '' : message;
+        }
+
+        function validatePhone(inputId, errorId) {
+            var value = document.getElementById(inputId).value.trim();
+            var isValid = value === '' || PHONE_FORMAT_RE.test(value);
+            setFieldError(inputId, errorId, isValid, '格式需為「+國碼 數字 數字…」，數字之間用空格分隔，例如 +886 936 928 372');
+        }
+
+        function validateEmail() {
+            var value = document.getElementById('email').value.trim();
+            var isValid = value === '' || EMAIL_FORMAT_RE.test(value);
+            setFieldError('email', 'emailError', isValid, 'Email 格式不正確');
+        }
+
+        document.getElementById('nameEn').addEventListener('input', function (e) {
+            transformPreservingCursor(e.target, capitalizeWords);
+            updateCard();
+        });
+
+        document.getElementById('email').addEventListener('input', function (e) {
+            transformPreservingCursor(e.target, function (v) { return v.toLowerCase(); });
+            validateEmail();
+            updateCard();
+        });
+        document.getElementById('email').addEventListener('blur', validateEmail);
+
+        document.getElementById('mobile').addEventListener('blur', function () { validatePhone('mobile', 'mobileError'); });
+        document.getElementById('tel').addEventListener('blur', function () { validatePhone('tel', 'telError'); });
+
+        validateEmail();
+        validatePhone('mobile', 'mobileError');
+        validatePhone('tel', 'telError');
 
         if (document.fonts && document.fonts.ready) {
             document.fonts.ready.then(updateCard);
