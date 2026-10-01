@@ -604,7 +604,10 @@
         document.getElementById('showMobile').addEventListener('change', updateCard);
 
         // ---- 輸入檢查/自動修正：Email 全部小寫、英文名每個單字字首大寫、電話格式驗證 ----
-        var PHONE_FORMAT_RE = /^\+\d{1,4}(\s\d{1,4})+$/; // 例如 +886 936 928 372 / +886 2 2775 2099；每組數字最多 4 碼，不能整串黏在一起
+        // 手機固定「國碼 3碼 3碼 3碼」，例如 +886 936 928 372
+        var MOBILE_FORMAT_RE = /^\+\d{1,4}(\s\d{3}){3}$/;
+        // 公司電話（市話）分組長度不一（例如 +886 2 2775 2099），只限制每組最多 4 碼、不能整串黏在一起
+        var TEL_FORMAT_RE = /^\+\d{1,4}(\s\d{1,4})+$/;
         var EMAIL_FORMAT_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         function transformPreservingCursor(input, transformFn) {
@@ -627,10 +630,10 @@
             document.getElementById(errorId).textContent = isValid ? '' : message;
         }
 
-        function validatePhone(inputId, errorId) {
+        function validatePhone(inputId, errorId, regex, message) {
             var value = document.getElementById(inputId).value.trim();
-            var isValid = value === '' || PHONE_FORMAT_RE.test(value);
-            setFieldError(inputId, errorId, isValid, '格式需為「+國碼 數字 數字…」，數字之間用空格分隔，例如 +886 936 928 372');
+            var isValid = value === '' || regex.test(value);
+            setFieldError(inputId, errorId, isValid, message);
         }
 
         function validateEmail() {
@@ -651,12 +654,19 @@
         });
         document.getElementById('email').addEventListener('blur', validateEmail);
 
-        document.getElementById('mobile').addEventListener('blur', function () { validatePhone('mobile', 'mobileError'); });
-        document.getElementById('tel').addEventListener('blur', function () { validatePhone('tel', 'telError'); });
+        function validateMobile() {
+            validatePhone('mobile', 'mobileError', MOBILE_FORMAT_RE, '格式需為「+國碼 3碼 3碼 3碼」，例如 +886 936 928 372');
+        }
+        function validateTel() {
+            validatePhone('tel', 'telError', TEL_FORMAT_RE, '格式需為「+國碼 數字 數字…」，數字之間用空格分隔，例如 +886 2 2775 2099');
+        }
+
+        document.getElementById('mobile').addEventListener('blur', validateMobile);
+        document.getElementById('tel').addEventListener('blur', validateTel);
 
         validateEmail();
-        validatePhone('mobile', 'mobileError');
-        validatePhone('tel', 'telError');
+        validateMobile();
+        validateTel();
 
         if (document.fonts && document.fonts.ready) {
             document.fonts.ready.then(updateCard);
